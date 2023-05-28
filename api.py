@@ -74,5 +74,39 @@ def crear_categoria():
 
     return jsonify({'message': 'Categoria creada correctamente'})
 
+@app.route('/productos', methods=['GET'])
+def obtener_productos():
+    cursor = db.cursor()
+    cursor.execute("SELECT id, nombre, marca, categoria_id FROM producto")
+    productos = cursor.fetchall()
+
+    resultado = []
+    for objeto in productos:
+        resultado.append({
+            'id': objeto[0],
+            'nombre': objeto[1],
+            'marca': objeto[2],
+            'categoria_id': objeto[3]
+        })
+
+    return jsonify(resultado)
+
+@app.route('/productos', methods=['POST'])
+def crear_producto():
+    data = request.get_json()
+    nombre = data['nombre']
+    marca = data['marca']
+    categoria_id = data['categoria_id']
+
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO producto (nombre, marca, categoria_id)
+        VALUES (%s, %s, %s)
+    """, (nombre, marca, categoria_id))
+
+    db.commit()
+
+    return jsonify({'message': 'Producto creado correctamente'})
+
 if __name__ == '__main__':
     app.run()
