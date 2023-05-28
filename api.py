@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 import mysql.connector
 
 app = Flask(__name__)
+
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -42,7 +43,7 @@ def crear_cliente():
 
     return jsonify({'message': 'Cliente creado correctamente'})
 
-@app.route('/categoria', methods=['GET'])
+@app.route('/categorias', methods=['GET'])
 def obtener_categoria():
     cursor = db.cursor()
     cursor.execute("SELECT id, nombre, percha FROM categoria")
@@ -58,7 +59,7 @@ def obtener_categoria():
 
     return jsonify(resultado)
 
-@app.route('/categoria', methods=['POST'])
+@app.route('/categorias', methods=['POST'])
 def crear_categoria():
     data = request.get_json()
     nombre = data['nombre']
