@@ -1,0 +1,4 @@
+pip install virtualenv
+virtualenv nombre_del_entorno
+nombre_del_entorno\Scripts\activate
+deactivate
